@@ -1,3 +1,65 @@
+import random
+start_game = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
+
+game_hands = {
+  "player": [],
+  "dealer": []
+}
+
+player_hand = game_hands["player"]
+dealer_hand = game_hands["dealer"]
+
+def playGame():
+  # players draw
+  for i in range(2):
+    get_random_card = random.randint(1, 10)
+    game_hands["player"].append(get_random_card)
+  for i in range(2):
+    get_random_card = random.randint(1, 10)
+    game_hands["dealer"].append(get_random_card)
+    
+  player_total_points = sum(game_hands["player"])
+  dealer_total_points = sum(game_hands["dealer"])
+  continue_game = True
+  
+  while continue_game:
+    print(f"    Your cards: {player_hand}, current score: {player_total_points}")
+    print(f"    Computer's first card: {dealer_hand[0]}")
+    get_random_card = random.randint(1, 10)
+    
+    print(dealer_hand)
+    draw_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
+    if draw_card == 'y':
+      game_hands["player"].append(get_random_card)
+      player_total_points += get_random_card
+      if player_total_points > 21:
+        print(f"    Your cards: {player_hand}, current score: {player_total_points}")
+        print("You went over 21. You lose.")
+        continue_game = False  
+    elif draw_card == 'n':
+      while dealer_total_points < 17:
+        get_random_card = random.randint(1, 10)
+        game_hands["dealer"].append(get_random_card)
+        dealer_total_points += get_random_card
+      checkWinner(player_total_points, dealer_total_points)
+      continue_game = False
+
+def checkWinner(player_score, dealer_score):
+  if player_score > dealer_score:
+    print(f"    Your final hand: {player_hand}, final score: {player_score}")
+    print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
+    print("You win!")
+    return
+  else:
+    print(f"    Your final hand: {player_hand}, final score: {player_score}")
+    print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
+    return print("You lose.")
+    
+# Start game if player chooses 'y'
+if start_game == 'y':
+  playGame();
+
+
 
 
 ############### Blackjack Project #####################
