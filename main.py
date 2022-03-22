@@ -3,42 +3,33 @@ start_game = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
 
 game_hands = {
   "player": [],
-  "dealer": []
-}
-
-deck_of_cards = {
-  "1": 1,
-  "2": 2,
-  "3": 3,
-  "4": 4,
-  "5": 5,
-  "6": 6,
-  "7": 7,
-  "8": 8,
-  "9": 9,
-  "10": 10,
-  "jack": 10,
-  "queen": 10,
-  "king": 10,
-  "ace": [1, 11]
+  "dealer": [],
+  "cards": [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 }
 
 player_hand = game_hands["player"]
 dealer_hand = game_hands["dealer"]
+cards = game_hands["cards"]
 
-# Chooses random card from deck - put into a function later
-card_choice = random.choice(list(deck_of_cards))
-card_value = deck_of_cards[card_choice]
 
+def drawCard(hand):
+  card_choice = random.choice(cards)
+  hand.append(card_choice)
+
+def calcScore(hand):
+  if sum(hand) > 21:
+    for i in range(len(hand)):
+      if hand[i] == 11:
+        hand[i] = 1
+        
+
+calcScore(player_hand)
 
 def playGame():
   # players draw
   for i in range(2):
-    get_random_card = random.randint(1, 10)
-    game_hands["player"].append(get_random_card)
-  for i in range(2):
-    get_random_card = random.randint(1, 10)
-    game_hands["dealer"].append(get_random_card)
+    drawCard(player_hand)
+    drawCard(dealer_hand)    
     
   player_total_points = sum(game_hands["player"])
   dealer_total_points = sum(game_hands["dealer"])
