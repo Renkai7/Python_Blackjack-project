@@ -6,8 +6,30 @@ game_hands = {
   "dealer": []
 }
 
+deck_of_cards = {
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  "10": 10,
+  "jack": 10,
+  "queen": 10,
+  "king": 10,
+  "ace": [1, 11]
+}
+
 player_hand = game_hands["player"]
 dealer_hand = game_hands["dealer"]
+
+# Chooses random card from deck - put into a function later
+card_choice = random.choice(list(deck_of_cards))
+card_value = deck_of_cards[card_choice]
+
 
 def playGame():
   # players draw
