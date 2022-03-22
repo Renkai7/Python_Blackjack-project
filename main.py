@@ -21,41 +21,51 @@ def calcScore(hand):
     for i in range(len(hand)):
       if hand[i] == 11:
         hand[i] = 1
-        
-
-calcScore(player_hand)
+  return sum(hand)      
 
 def playGame():
   # players draw
   for i in range(2):
     drawCard(player_hand)
     drawCard(dealer_hand)    
-    
-  player_total_points = sum(game_hands["player"])
-  dealer_total_points = sum(game_hands["dealer"])
+  
   continue_game = True
   
   while continue_game:
+    player_total_points = calcScore(player_hand)
+    dealer_total_points = sum(game_hands["dealer"])
     print(f"    Your cards: {player_hand}, current score: {player_total_points}")
     print(f"    Computer's first card: {dealer_hand[0]}")
-    get_random_card = random.randint(1, 10)
-    
+      
     print(dealer_hand)
-    draw_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
-    if draw_card == 'y':
-      game_hands["player"].append(get_random_card)
-      player_total_points += get_random_card
-      if player_total_points > 21:
-        print(f"    Your cards: {player_hand}, current score: {player_total_points}")
-        print("You went over 21. You lose.")
-        continue_game = False  
-    elif draw_card == 'n':
-      while dealer_total_points < 17:
-        get_random_card = random.randint(1, 10)
-        game_hands["dealer"].append(get_random_card)
-        dealer_total_points += get_random_card
-      checkWinner(player_total_points, dealer_total_points)
+    
+    if player_total_points == 21:
+      print(f"    Your cards: {player_hand}, current score: {player_total_points}")
+      print("21 BLACKJACK!")
       continue_game = False
+    elif dealer_total_points == 21:
+      print(f"    Dealer cards: {dealer_hand}, current score: {dealer_total_points}")
+      print("The dealer has 21 Blackjack")
+      continue_game = False
+    else:
+      draw_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
+      if draw_card == 'y':
+        # game_hands["player"].append(get_random_card)
+        # player_total_points += get_random_card
+        drawCard(player_hand)
+        player_total_points = calcScore(player_hand)
+        
+        if player_total_points > 21:
+          print(f"    Your cards: {player_hand}, current score: {player_total_points}")
+          print("You went over 21. You lose.")
+          continue_game = False
+          
+      elif draw_card == 'n':
+        while dealer_total_points < 17:
+          drawCard(dealer_hand)    
+          dealer_total_points = sum(game_hands["dealer"])
+        checkWinner(player_total_points, dealer_total_points)
+        continue_game = False
 
 def checkWinner(player_score, dealer_score):
   if player_score > dealer_score:
@@ -63,11 +73,19 @@ def checkWinner(player_score, dealer_score):
     print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
     print("You win!")
     return
-  else:
+  elif dealer_score > 21:
+    print(f"    Your final hand: {player_hand}, final score: {player_score}")
+    print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
+    return print("Dealer went over. You win!")
+  elif player_score < dealer_score:
     print(f"    Your final hand: {player_hand}, final score: {player_score}")
     print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
     return print("You lose.")
-    
+  
+  else:
+    print(f"    Your final hand: {player_hand}, final score: {player_score}")
+    print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
+    return print("Draw!")
 # Start game if player chooses 'y'
 if start_game == 'y':
   playGame();
