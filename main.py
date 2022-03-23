@@ -1,4 +1,8 @@
+from replit import clear
 import random
+from art import logo
+
+# print(logo)
 start_game = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
 
 game_hands = {
@@ -24,6 +28,9 @@ def calcScore(hand):
   return sum(hand)      
 
 def playGame():
+  print(logo)
+  # player_hand = []
+  # dealer_hand = []
   # players draw
   for i in range(2):
     drawCard(player_hand)
@@ -33,7 +40,7 @@ def playGame():
   
   while continue_game:
     player_total_points = calcScore(player_hand)
-    dealer_total_points = sum(game_hands["dealer"])
+    dealer_total_points = calcScore(dealer_hand)
     print(f"    Your cards: {player_hand}, current score: {player_total_points}")
     print(f"    Computer's first card: {dealer_hand[0]}")
       
@@ -63,7 +70,7 @@ def playGame():
       elif draw_card == 'n':
         while dealer_total_points < 17:
           drawCard(dealer_hand)    
-          dealer_total_points = sum(game_hands["dealer"])
+          dealer_total_points = calcScore(dealer_hand)
         checkWinner(player_total_points, dealer_total_points)
         continue_game = False
 
@@ -81,7 +88,6 @@ def checkWinner(player_score, dealer_score):
     print(f"    Your final hand: {player_hand}, final score: {player_score}")
     print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
     return print("You lose.")
-  
   else:
     print(f"    Your final hand: {player_hand}, final score: {player_score}")
     print(f"    Dealer final hand: {dealer_hand}, final score: {dealer_score}")
@@ -90,6 +96,11 @@ def checkWinner(player_score, dealer_score):
 if start_game == 'y':
   playGame();
 
+while input("Do you want to play another game of BlackJack? Type 'y' or 'n': ").lower() == "y":
+  clear()
+  player_hand = []
+  dealer_hand = []
+  playGame()
 
 
 
